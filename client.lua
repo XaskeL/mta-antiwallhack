@@ -7,15 +7,15 @@ local iDelayUpdate 			= 0
 local iDelayMS 				= 8
 
 local getElementsByType		= getElementsByType
-local getTickCount 			= getTickCount
-local getPlayerWeapon 		= getPlayerWeapon
+local getTickCount			= getTickCount
+local getPlayerWeapon		= getPlayerWeapon
 local getPedTask			= getPedTask
-local getElementPosition 	= getElementPosition
+local getElementPosition	= getElementPosition
 
-local centerx, centery 		= guiGetScreenSize() -- center of screen
+local centerx, centery		= guiGetScreenSize() -- center of screen
 	  centerx, centery		= centerx / 2, centery / 2
 
-local math.sqrt 			= math.sqrt
+local math.sqrt				= math.sqrt
 
 local function getPlayers(bInStream)
 	return getElementsByType('player', root, bInStream)
