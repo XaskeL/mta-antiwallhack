@@ -72,7 +72,14 @@ local function underTheSelf()
 				dxDrawRectangle(data[1][1],data[1][2],2,2) -- DEBUG
 				dxDrawRectangle(data[2][1],data[2][2],2,2) -- DEBUG
 				
-				if centerx > data[2][1] and centerx < data[1][1] then -- [2] -- left, [1] -- right
+				local down = { getScreenFromWorldPosition( x, y, z - 1 ) }
+				local up   = { getScreenFromWorldPosition( x, y, z + 1 ) }
+				
+				dxDrawRectangle(down[1], down[2], 2, 2, tocolor(255,0,0,255)) -- DEBUG
+				dxDrawRectangle(up[1], up[2], 2, 2, tocolor(255,0,0,255)) -- DEBUG
+				
+				outputChatBox('centery: '..centery.. ' down: '..down[2]) -- DEBUG
+				if centerx > data[2][1] and centerx < data[1][1] and centery < down[2] and centery > up[2] then -- [2] -- left, [1] -- right
 					g_hIsPlayerInCross = player
 					outputChatBox( tostring(g_hIsPlayerInCross)..math.random(1,33) ) -- DEBUG
 				end
