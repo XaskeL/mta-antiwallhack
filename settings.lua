@@ -1,6 +1,6 @@
 ﻿-- CONFIG FILE --
 iCountsWarning 				= 5;
-iFovCheckOnCamera 			= 1;
+FOV 						= 0.18;
 
 bSimulatePlayers 			= true; -- simulating players on stream. BAD: CPedPool (Memory Address: 0x00B7CD98)
 bSimulateVehicles 			= true; -- simulating vehicles on stream. BAD: CPedPool (Memory Address: 0xC502AA0)

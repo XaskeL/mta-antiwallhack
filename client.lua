@@ -11,16 +11,17 @@ local getTickCount			= getTickCount
 local getPlayerWeapon		= getPlayerWeapon
 local getPedTask			= getPedTask
 local getElementPosition	= getElementPosition
+local getCamera				= getCamera
 
 local centerx, centery		= guiGetScreenSize() -- center of screen
-	  centerx, centery		= centerx / 2, centery / 2
+	  centerx, centery		= centerx / 1.89, centery / 2.5
 
 local sqrt					= math.sqrt
 
 local g_hIsPlayerInCross 	= false
 
 local function getPlayers(bInStream)
-	return getElementsByType('player', root, bInStream)
+	return getElementsByType('ped', root, bInStream)
 end
 
 local function isPlayerAiming(player)
@@ -35,6 +36,11 @@ addEventHandler( 'onClientResourceStart', resourceRoot,
 	end
 );
 
+local function getOffsetXY(x,y,rz,angle)
+	local offset = math.rad(rz + angle) 
+	return x + FOV * math.cos(offset), y + FOV * math.sin(offset) 
+end
+
 local function underTheSelf()
 	if getPlayerWeapon(localPlayer) < 1 then
 		return
@@ -46,10 +52,20 @@ local function underTheSelf()
 		local players = getPlayers(true)
 		for i, player in ipairs(players) do
 			local x,y,z = getElementPosition(player)
-			for i = 0, 2 do -- 3
-				local coords = { getScreenFromWorldPosition ( x, y, z + (0.25 * i) ) }
-				if sqrt( (coords[1] - centerx) ^ 2 + (coords[2] - centery) ^ 2) < iFovCheckOnCamera then
+			local _,_,rz = getElementRotation( getCamera() )
+			for i = -2, 3 do -- 6
+				-- VERY BAD CHECK, IS NOT SIMPLE!
+				local upperSize = z + (0.25 * i)
+				
+				local px,py = getOffsetXY(x,y,rz,180)
+				local left = { getScreenFromWorldPosition( px,py, upperSize ) }
+				
+				local px,py = getOffsetXY(x,y,rz,0)
+				local right = { getScreenFromWorldPosition( px,py, upperSize ) }
+			
+				if centerx > left[1] and centerx < right[1] and centery > left[2] and centery < left[2] then
 					g_hIsPlayerInCross = true
+					outputChatBox( tostring(g_hIsPlayerInCross)..math.random(1,33) )
 				end
 			end
 			if g_hIsPlayerInCross then break end
@@ -57,7 +73,7 @@ local function underTheSelf()
 	end
 end
 
-addEventHandler( 'onClientRender', resourceRoot,
+addEventHandler( 'onClientRender', root,
 	function()
 		if getTickCount() > iDelayUpdate then
 			iDelayUpdate = getTickCount() + iDelayMS -- MAX_FPS = 100; 1000/MAX_FPS=10 MS; 1000 / (10 + 8) = 55 UPDATES IN SECOND

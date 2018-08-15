@@ -1,8 +1,9 @@
 <meta>
 	<oop>true</oop>
 	
-	<script src="server.lua" type="server"/>
-	<script src="client.lua" type="client" cache="false"/>
+	<script src="settings.lua" 				type="shared" cache="false"/>
+	<script src="server.lua" 				type="server"/>
+	<script src="client.lua"			 	type="client" cache="false"/>
 	
 	<min_mta_version client="1.5.5" server="1.5.5"/>
 	<info author="XaskeL" type="Script" name="AntiWallhack"/>
