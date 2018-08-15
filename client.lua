@@ -15,7 +15,7 @@ local getElementPosition	= getElementPosition
 local centerx, centery		= guiGetScreenSize() -- center of screen
 	  centerx, centery		= centerx / 2, centery / 2
 
-local math.sqrt				= math.sqrt
+local sqrt					= math.sqrt
 
 local g_hIsPlayerInCross 	= false
 
@@ -43,11 +43,12 @@ local function underTheSelf()
 	g_hIsPlayerInCross = false -- reset state
 	
 	if isPlayerAiming(localPlayer) then
-		for i, player in ipairs( getPlayers(true) ) do
+		local players = getPlayers(true)
+		for i, player in ipairs(players) do
 			local x,y,z = getElementPosition(player)
 			for i = 0, 2 do -- 3
 				local coords = { getScreenFromWorldPosition ( x, y, z + (0.25 * i) ) }
-				if math.sqrt( (coords[1] - centerx) ^ 2 + (coords[2] - centery) ^ 2) < iFovCheckOnCamera then
+				if sqrt( (coords[1] - centerx) ^ 2 + (coords[2] - centery) ^ 2) < iFovCheckOnCamera then
 					g_hIsPlayerInCross = true
 				end
 			end
