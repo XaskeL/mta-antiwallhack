@@ -68,9 +68,13 @@ local function underTheSelf()
 				-- VERY BAD CHECK, IS NOT SIMPLE!
 				local upperSize = z + (0.25 * i)
 				local data = getBoxBorders(x,y,upperSize) 
-				if centerx > data[1][1] and centerx < data[2][1] then -- [1] -- left, [2] -- right
-					g_hIsPlayerInCross = true
-					outputChatBox( tostring(g_hIsPlayerInCross)..math.random(1,33) )
+				
+				dxDrawRectangle(data[1][1],data[1][2],2,2) -- DEBUG
+				dxDrawRectangle(data[2][1],data[2][2],2,2) -- DEBUG
+				
+				if centerx > data[2][1] and centerx < data[1][1] then -- [2] -- left, [1] -- right
+					g_hIsPlayerInCross = player
+					outputChatBox( tostring(g_hIsPlayerInCross)..math.random(1,33) ) -- DEBUG
 				end
 			end
 			if g_hIsPlayerInCross then break end
