@@ -41,6 +41,18 @@ local function getOffsetXY(x,y,rz,angle)
 	return x + FOV * math.cos(offset), y + FOV * math.sin(offset) 
 end
 
+local function getBoxBorders(x,y,z) 
+	local ID = 1
+	local data = {}
+	local _,_,rz = getElementRotation( getCamera() )
+	for i = 0, 180, 180 do -- left and right border
+		local px,py = getOffsetXY(x,y,rz,i)
+		data[ID] = { getScreenFromWorldPosition( px, py, z ) }
+		ID = ID + 1
+	end
+	return data
+end
+
 local function underTheSelf()
 	if getPlayerWeapon(localPlayer) < 1 then
 		return
@@ -52,18 +64,11 @@ local function underTheSelf()
 		local players = getPlayers(true)
 		for i, player in ipairs(players) do
 			local x,y,z = getElementPosition(player)
-			local _,_,rz = getElementRotation( getCamera() )
 			for i = -2, 3 do -- 6
 				-- VERY BAD CHECK, IS NOT SIMPLE!
 				local upperSize = z + (0.25 * i)
-				
-				local px,py = getOffsetXY(x,y,rz,180)
-				local left = { getScreenFromWorldPosition( px,py, upperSize ) }
-				
-				local px,py = getOffsetXY(x,y,rz,0)
-				local right = { getScreenFromWorldPosition( px,py, upperSize ) }
-			
-				if centerx > left[1] and centerx < right[1] and centery > left[2] and centery < left[2] then -- not valid size of ped :(
+				local data = getBoxBorders(x,y,upperSize) 
+				if centerx > data[1][1] and centerx < data[2][1] then -- [1] -- left, [2] -- right
 					g_hIsPlayerInCross = true
 					outputChatBox( tostring(g_hIsPlayerInCross)..math.random(1,33) )
 				end
