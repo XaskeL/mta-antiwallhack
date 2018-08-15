@@ -63,7 +63,7 @@ local function underTheSelf()
 				local px,py = getOffsetXY(x,y,rz,0)
 				local right = { getScreenFromWorldPosition( px,py, upperSize ) }
 			
-				if centerx > left[1] and centerx < right[1] and centery > left[2] and centery < left[2] then
+				if centerx > left[1] and centerx < right[1] and centery > left[2] and centery < left[2] then -- not valid size of ped :(
 					g_hIsPlayerInCross = true
 					outputChatBox( tostring(g_hIsPlayerInCross)..math.random(1,33) )
 				end
